@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import {useFonts} from 'expo-font';
+
+import Routes from "./src/router/Routes";
+
+import {Provider} from "react-redux";
+
+import configureStore from "./src/store/store";
+
+const store = configureStore()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    const [loaded] = useFonts({
+        'Raleway-bold': require('./assets/fonts/Raleway/Raleway-Bold.ttf'),
+        'Raleway-light': require('./assets/fonts/Raleway/Raleway-Light.ttf'),
+        'Raleway-regular': require('./assets/fonts/Raleway/Raleway-Regular.ttf'),
+        'Raleway-medium': require('./assets/fonts/Raleway/Raleway-Medium.ttf'),
+        'Raleway-extra-bold': require('./assets/fonts/Raleway/Raleway-ExtraBold.ttf')
+    });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    if (!loaded) {
+        return null
+    }
+
+    return (
+        <Provider store={store}>
+            <Routes/>
+        </Provider>
+    )
+}
